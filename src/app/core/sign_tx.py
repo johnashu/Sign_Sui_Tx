@@ -21,7 +21,6 @@ async def parse_response(res: str) -> tuple:
 
 async def sign_tx(owner_address: str, tx_bytes: str):
     cmd = ["sui", "keytool", "sign", "--address", owner_address, "--data", tx_bytes]
-    # res = subprocess.run(cmd, capture_output=True)
     proc = subprocess.Popen(
         cmd, universal_newlines=True, stderr=subprocess.PIPE, stdout=subprocess.PIPE
     )

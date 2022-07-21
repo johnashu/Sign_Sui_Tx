@@ -47,7 +47,6 @@ mismatch_one = {"some_wrong_key": {"owner_address": mm, "tx_bytes": tx}}
 
 
 def make_request(params: dict, url: str = url, headers: list = None) -> list:
-    url = "http://154.53.59.19:5000"
     res = requests.post(url, params=params, headers=headers)
 
     logging.info(f"RES  ::  {res}  ::  {res.json()}\n\n")
