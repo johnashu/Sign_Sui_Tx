@@ -24,9 +24,10 @@ async def process_sign(send, signed_txns: list) -> list:
             )
             return False, await send_response(send, body, status=400)
         else:
-            status, new_tx_bytes, signed_txn, pub_key = await sign_tx(
-                owner_address, tx_bytes
-            )
+            status, signed_txn, pub_key = await sign_tx(owner_address, tx_bytes)
+            if not signed_txn or not pub_key:
+                return False, await send_response(send, body, status=404)
+
             msg = status
 
             body.append(
@@ -34,7 +35,6 @@ async def process_sign(send, signed_txns: list) -> list:
                     "item": i,
                     "status": status,
                     "message": msg,
-                    "new_tx_bytes": new_tx_bytes,
                     "signed_txn": signed_txn,
                     "pub_key": pub_key,
                     "owner_address": owner_address,
@@ -66,7 +66,6 @@ async def app(scope, receive, send):
         await send_response(send, body, status=400)
     else:
         dec = urllib.parse.unquote_plus(q.decode())
-        # Import the JSON string back into a Python dict (jd is effectively the same as 'data')
         params = json.loads(dec)
         signed_txns = params.get("signed_txns")
         if not signed_txns:

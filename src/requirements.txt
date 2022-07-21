@@ -1,7 +1,4 @@
-eth-utils
 uvicorn[standard]
 requests
-eth-hash[pycryptodome]
 pipenv
 curlify
-Crypto

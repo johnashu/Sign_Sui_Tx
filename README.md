@@ -23,12 +23,16 @@ Example with Python
 import requests
 
 # define URL
-url = "http://127.0.0.1:9000"
+url = "http://127.0.0.1:5000"
 
-#
-# build params using "addresses" key
+# # test request
+token = "45yhrdue586rfhe5r87w4srj568ew45sjh568e4uj5e6rtjhyt4535jrtdsedgv"
+headers = {"token": token}
 params = {
-    
+        "signed_txns": [
+            {"owner_address": address, "tx_bytes": tx},
+            {"owner_address": address, "tx_bytes": tx},
+        ]
     }
 
 # send request
@@ -79,6 +83,28 @@ Run the tests
 > Happy Flow
 
 ```json
+[
+  {
+    "item": 0,
+    "status": "success",
+    "message": "success",
+    "new_tx_bytes": "new_tx_bytes",
+    "signed_txn": "signed_txn",
+    "pub_key": "pub_key",
+    "owner_address": "0x2c53ba8163f740bb278194ac799f79275fe8dc6a",
+    "tx_bytes_sent": "YunLZjSe5u3S9C2/6m1JsUjd0zaXZvx MyNieP61lQ0="
+  },
+  {
+    "item": 1,
+    "status": "success",
+    "message": "success",
+    "new_tx_bytes": "new_tx_bytes",
+    "signed_txn": "signed_txn",
+    "pub_key": "pub_key",
+    "owner_address": "0x2c53ba8163f740bb278194ac799f79275fe8dc6a",
+    "tx_bytes_sent": "YunLZjSe5u3S9C2/6m1JsUjd0zaXZvx MyNieP61lQ0="
+  }
+]
 
 
 ```
