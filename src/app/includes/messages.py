@@ -7,10 +7,6 @@ http_response_start = {
 }
 http_response_body = {"type": "http.response.body", "body": [{b"hello": b"world"}]}
 
-res_status = {
-    "success": "Successfully signed transaction",
-    "error": "ERROR: signing failed",
-}
 
 empty_msg = "Empty Request"
 bad_request_msg = "Incorrect request"

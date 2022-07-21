@@ -10,31 +10,29 @@ from includes.tokens import *
 async def process_sign(send, signed_txns: list) -> list:
     body = []
 
+    err = {
+        "error": "Signing failed owner_address or bytes empty.",
+        "owner_address": owner_address,
+        "tx_bytes_sent": tx_bytes,
+    }
+
     for i, x in enumerate(signed_txns):
         owner_address = x.get("owner_address")
         tx_bytes = x.get("tx_bytes")
 
         if not owner_address or not tx_bytes:
-            body.append(
-                {
-                    "error": "ERROR: signing failed owner_address or bytes empty.",
-                    "owner_address": owner_address,
-                    "tx_bytes_sent": tx_bytes,
-                }
-            )
+            body.append(err)
             return False, await send_response(send, body, status=400)
         else:
-            status, signed_txn, pub_key = await sign_tx(owner_address, tx_bytes)
+            signed_txn, pub_key = await sign_tx(owner_address, tx_bytes)
             if not signed_txn or not pub_key:
+                body.append(err)
                 return False, await send_response(send, body, status=404)
-
-            msg = status
 
             body.append(
                 {
                     "item": i,
-                    "status": status,
-                    "message": msg,
+                    "status": "success",
                     "signed_txn": signed_txn,
                     "pub_key": pub_key,
                     "owner_address": owner_address,

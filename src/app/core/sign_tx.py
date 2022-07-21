@@ -21,25 +21,12 @@ async def parse_response(res: str) -> tuple:
 
 async def sign_tx(owner_address: str, tx_bytes: str):
     cmd = ["sui", "keytool", "sign", "--address", owner_address, "--data", tx_bytes]
-    proc = subprocess.Popen(
-        cmd, universal_newlines=True, stderr=subprocess.PIPE, stdout=subprocess.PIPE
+    proc = subprocess.run(
+        cmd,
+        encoding="utf8",
+        universal_newlines=True,
+        stderr=subprocess.PIPE,
+        stdout=subprocess.PIPE,
     )
-    try:
-        outs, errs = proc.communicate(timeout=15)
-    except subprocess.TimeoutExpired:
-        proc.kill()
-        outs, errs = proc.communicate()
-    logging.error(outs)
-    logging.error(errs)
-    logging.error(proc)
-    status = "success"
-    signed_txn, pub_key = await parse_response(errs)
-    return status, signed_txn, pub_key
-
-
-# address = "0x23beb41b7c55e126750f2077c02b32cdfa62631d"
-# tx = "VHJhbnNhY3Rpb25EYXRhOjoAAA5DDnUxesba/mkUle3mKD19oMuNBOlVM5Q2T84wXCMpPv80EKJ0lG4CAAAAAAAAACDB6V7wwJvpauO/5C8WV0U347WvnIWAUcuQQ5y9crBuSiO+tBt8VeEmdQ8gd8ArMs36YmMdBOlVM5Q2T84wXCMpPv80EKJ0lG4CAAAAAAAAACDB6V7wwJvpauO/5C8WV0U347WvnIWAUcuQQ5y9crBuSgEAAAAAAAAA6AMAAAAAAAA="
-# sign_tx(address, tx)
-
-
-# {'signed_txns': [{'owner_address': '0x23beb41b7c55e126750f2077c02b32cdfa62631d', 'tx_bytes': 'VHJhbnNhY3Rpb25EYXRhOjoAAA5DDnUxesba/mkUle3mKD19oMuNBOlVM5Q2T84wXCMpPv80EKJ0lG4CAAAAAAAAACDB6V7wwJvpauO/5C8WV0U347WvnIWAUcuQQ5y9crBuSiO+tBt8VeEmdQ8gd8ArMs36YmMdMSLyDVC/GFMeFb0zY3KOGJnN1DYCAAAAAAAAACAxCFCOmlbmlOWDzjdSDz9pxrju+AD0G/lDHq8tGFRIqQEAAAAAAAAA6AMAAAAAAAA='}, {'owner_address': '0x23beb41b7c55e126750f2077c02b32cdfa62631d', 'tx_bytes': 'VHJhbnNhY3Rpb25EYXRhOjoAAA5DDnUxesba/mkUle3mKD19oMuNBOlVM5Q2T84wXCMpPv80EKJ0lG4CAAAAAAAAACDB6V7wwJvpauO/5C8WV0U347WvnIWAUcuQQ5y9crBuSiO+tBt8VeEmdQ8gd8ArMs36YmMdMSLyDVC/GFMeFb0zY3KOGJnN1DYCAAAAAAAAACAxCFCOmlbmlOWDzjdSDz9pxrju+AD0G/lDHq8tGFRIqQEAAAAAAAAA6AMAAAAAAAA='}]}
+    signed_txn, pub_key = await parse_response(proc.stderr)
+    return signed_txn, pub_key

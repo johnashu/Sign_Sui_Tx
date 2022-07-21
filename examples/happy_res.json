@@ -2,8 +2,6 @@
   {
     "item": 0,
     "status": "success",
-    "message": "success",
-    "new_tx_bytes": "new_tx_bytes",
     "signed_txn": "signed_txn",
     "pub_key": "pub_key",
     "owner_address": "0x2c53ba8163f740bb278194ac799f79275fe8dc6a",
@@ -12,8 +10,6 @@
   {
     "item": 1,
     "status": "success",
-    "message": "success",
-    "new_tx_bytes": "new_tx_bytes",
     "signed_txn": "signed_txn",
     "pub_key": "pub_key",
     "owner_address": "0x2c53ba8163f740bb278194ac799f79275fe8dc6a",
