@@ -27,10 +27,8 @@ url = "http://127.0.0.1:5000"
 token = "45yhrdue586rfhe5r87w4srj568ew45sjh568e4uj5e6rtjhyt4535jrtdsedgv"
 headers = {"token": token}
 
-# Addresses should be correct to check that it converted correctly.
-token = "45yhrdue586rfhe5r87w4srj568ew45sjh568e4uj5e6rtjhyt4535jrtdsedgv"
-address = "0x3d447b646bf555d102da06325fe3ce9adb4507ab"
-tx = "VHJhbnNhY3Rpb25EYXRhOjoAAA5DDnUxesba/mkUle3mKD19oMuNBOlVM5Q2T84wXCMpPv80EKJ0lG4CAAAAAAAAACDB6V7wwJvpauO/5C8WV0U347WvnIWAUcuQQ5y9crBuSiO+tBt8VeEmdQ8gd8ArMs36YmMdBOlVM5Q2T84wXCMpPv80EKJ0lG4CAAAAAAAAACDB6V7wwJvpauO/5C8WV0U347WvnIWAUcuQQ5y9crBuSgEAAAAAAAAA6AMAAAAAAAA="
+address = r"0x23beb41b7c55e126750f2077c02b32cdfa62631d"
+tx = r"VHJhbnNhY3Rpb25EYXRhOjoAAA5DDnUxesba/mkUle3mKD19oMuNBOlVM5Q2T84wXCMpPv80EKJ0lG4CAAAAAAAAACDB6V7wwJvpauO/5C8WV0U347WvnIWAUcuQQ5y9crBuSiO+tBt8VeEmdQ8gd8ArMs36YmMdBOlVM5Q2T84wXCMpPv80EKJ0lG4CAAAAAAAAACDB6V7wwJvpauO/5C8WV0U347WvnIWAUcuQQ5y9crBuSgEAAAAAAAAA6AMAAAAAAAA="
 
 happy_flow = {"signed_txns": {"owner_address": address, "tx_bytes": tx}}
 wrong_address = {"signed_txns": {"owner_address": "wrong_address", "tx_bytes": tx}}
@@ -47,10 +45,11 @@ mismatch_one = {"some_wrong_key": {"owner_address": mm, "tx_bytes": tx}}
 
 
 def make_request(params: dict, url: str = url, headers: list = None) -> list:
+    url = "http://154.53.59.19:5000"
     res = requests.post(url, params=params, headers=headers)
 
-    logging.info(f"RES  ::  {res}  ::  {res.json()}\n\n")
-    logging.info(f"cURL Request:\n{curlify.to_curl(res.request)}\n")
+    # logging.info(f"RES  ::  {res}  ::  {res.json()}\n\n")
+    # logging.info(f"cURL Request:\n{curlify.to_curl(res.request)}\n")
     return res.json()
 
 
@@ -99,8 +98,13 @@ if __name__ == "__main__":
             {"owner_address": address, "tx_bytes": tx},
         ]
     }
-
-    make_request(json.dumps(params), **kw)
+    import datetime
+    num_req = 10
+    st = datetime.datetime.now()
+    for _ in range(num_req):        
+        make_request(json.dumps(params), **kw)
+    et = datetime.datetime.now()
+    logging.info(f'Time ::  {et-st} for {num_req} calls')
 
     # sui keytool sign --address 0x23beb41b7c55e126750f2077c02b32cdfa62631d --data VHJhbnNhY3Rpb25EYXRhOjoAAA5DDnUxesba/mkUle3mKD19oMuNBOlVM5Q2T84wXCMpPv80EKJ0lG4CAAAAAAAAACDB6V7wwJvpauO/5C8WV0U347WvnIWAUcuQQ5y9crBuSiO+tBt8VeEmdQ8gd8ArMs36YmMdMSLyDVC/GFMeFb0zY3KOGJnN1DYCAAAAAAAAACAxCFCOmlbmlOWDzjdSDz9pxrju+AD0G/lDHq8tGFRIqQEAAAAAAAAA6AMAAAAAAAA=
 
