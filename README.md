@@ -33,8 +33,10 @@ Type=simple
 Restart=always
 RestartSec=1
 User=root
+Group=root
 WorkingDirectory=/root/app
 ExecStart=python3 main.py
+Environment="PATH=/root/.cargo/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 SyslogIdentifier=suiExternalSign
 StartLimitInterval=0
 LimitNOFILE=65536
