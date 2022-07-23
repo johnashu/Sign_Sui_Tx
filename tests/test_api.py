@@ -99,12 +99,13 @@ if __name__ == "__main__":
         ]
     }
     import datetime
+
     num_req = 10
     st = datetime.datetime.now()
-    for _ in range(num_req):        
+    for _ in range(num_req):
         make_request(json.dumps(params), **kw)
     et = datetime.datetime.now()
-    logging.info(f'Time ::  {et-st} for {num_req} calls')
+    logging.info(f"Time ::  {et-st} for {num_req} calls")
 
     # sui keytool sign --address 0x23beb41b7c55e126750f2077c02b32cdfa62631d --data VHJhbnNhY3Rpb25EYXRhOjoAAA5DDnUxesba/mkUle3mKD19oMuNBOlVM5Q2T84wXCMpPv80EKJ0lG4CAAAAAAAAACDB6V7wwJvpauO/5C8WV0U347WvnIWAUcuQQ5y9crBuSiO+tBt8VeEmdQ8gd8ArMs36YmMdMSLyDVC/GFMeFb0zY3KOGJnN1DYCAAAAAAAAACAxCFCOmlbmlOWDzjdSDz9pxrju+AD0G/lDHq8tGFRIqQEAAAAAAAAA6AMAAAAAAAA=
 

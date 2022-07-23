@@ -15,6 +15,55 @@ On an OS with Docker installed.
 
 `python3 main.py`
 
+# Run as a systemd service
+
+```bash
+sudo nano /etc/systemd/system/suiExternalSign.service
+```
+OR 
+
+```bash
+cat<<-EOF > /etc/systemd/system/suiExternalSign.service
+[Unit]
+Description=suiExternalSign daemon
+After=network-online.target
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=1
+User=root
+WorkingDirectory=/root/app
+ExecStart=python3 main.py
+SyslogIdentifier=suiExternalSign
+StartLimitInterval=0
+LimitNOFILE=65536
+LimitNPROC=65536
+
+[Install]
+WantedBy=multi-user.target
+EOF
+```
+
+```bash
+sudo systemctl daemon-reload
+sudo chmod 755 /etc/systemd/system/suiExternalSign.service
+sudo systemctl enable suiExternalSign.service
+sudo service suiExternalSign start
+sudo service suiExternalSign status
+
+sudo service suiExternalSign stop
+sudo service suiExternalSign restart
+
+```
+# Check Logs
+```bash
+sudo apt-get install grc
+sudo grc tail -f /var/log/syslog
+```
+
+
+
 # Build Request
 
 Example with Python
